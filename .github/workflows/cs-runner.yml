@@ -34,7 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.CUSTOM_PAT }}"
         run: |
-          TOKEN=$(node -pe 'JSON.parse(process.argv[1]).token' "$(curl -s -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/orgs/coderschool/actions/runners/registration-token)")
+          TOKEN=$(node -pe 'JSON.parse(process.argv[1]).token' "$(curl -s -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/orgs/coderschool-platform/actions/runners/registration-token)")
           echo "::set-output name=token::$TOKEN"
 
   generate-job-strategy-matrix:
@@ -67,7 +67,7 @@ jobs:
           echo "d1fa9768ef81de108db24645cba174096dfb59b4dbb883016192384827f29e43  actions-runner-linux-x64-2.296.0.tar.gz" | shasum -a 256 -c
           tar xzf ./actions-runner-linux-x64-2.296.0.tar.gz
 
-          ./config.sh --url https://github.com/coderschool --token ${{ needs.setup-token.outputs.token }} --name CS_RUNNER_${{ matrix.job }} --replace --labels "self-hosted,dustin-runner"
+          ./config.sh --url https://github.com/coderschool-platform --token ${{ needs.setup-token.outputs.token }} --name CS_RUNNER_${{ matrix.job }} --replace --labels "self-hosted,dustin-runner"
 
       - name: Start runner
         continue-on-error: true
