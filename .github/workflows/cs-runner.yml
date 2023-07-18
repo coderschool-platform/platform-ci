@@ -45,7 +45,7 @@ jobs:
     steps:
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(node -e "let r=[]; for(let i = 1; i <= (process.env.NUMBER_OF_JOBS || 5); i++) { r.push(i) }; console.log(JSON.stringify(r));")
+          JOB_STRATEGY_MATRIX=$(node -e "let r=[]; for(let i = 1; i <= (process.env.NUMBER_OF_JOBS || 10); i++) { r.push(i) }; console.log(JSON.stringify(r));")
           echo "::set-output name=job-strategy-matrix::$JOB_STRATEGY_MATRIX"
           echo $JOB_STRATEGY_MATRIX
         env:
