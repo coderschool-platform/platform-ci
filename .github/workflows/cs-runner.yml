@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.CUSTOM_PAT }}"
         run: |
           TOKEN=$(node -pe 'JSON.parse(process.argv[1]).token' "$(curl -s -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/orgs/coderschool-platform/actions/runners/registration-token)")
-          echo "::set-output name=token::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
   generate-job-strategy-matrix:
     name: Generate matrix
@@ -46,7 +46,7 @@ jobs:
       - id: generate
         run: |
           JOB_STRATEGY_MATRIX=$(node -e "let r=[]; for(let i = 1; i <= (process.env.NUMBER_OF_JOBS || 10); i++) { r.push(i) }; console.log(JSON.stringify(r));")
-          echo "::set-output name=job-strategy-matrix::$JOB_STRATEGY_MATRIX"
+          echo "job-strategy-matrix=$JOB_STRATEGY_MATRIX" >> $GITHUB_OUTPUT
           echo $JOB_STRATEGY_MATRIX
         env:
           NUMBER_OF_JOBS: ${{ github.event.inputs.replicas }}
@@ -63,9 +63,9 @@ jobs:
       - name: Setup runner
         run: |
           mkdir actions-runner && cd actions-runner
-          curl -o actions-runner-linux-x64-2.296.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.296.0/actions-runner-linux-x64-2.296.0.tar.gz
-          echo "d1fa9768ef81de108db24645cba174096dfb59b4dbb883016192384827f29e43  actions-runner-linux-x64-2.296.0.tar.gz" | shasum -a 256 -c
-          tar xzf ./actions-runner-linux-x64-2.296.0.tar.gz
+          curl -o actions-runner-linux-x64-2.310.2.tar.gz -L https://github.com/actions/runner/releases/download/v2.310.2/actions-runner-linux-x64-2.310.2.tar.gz
+          echo "fb28a1c3715e0a6c5051af0e6eeff9c255009e2eec6fb08bc2708277fbb49f93  actions-runner-linux-x64-2.310.2.tar.gz" | shasum -a 256 -c
+          tar xzf ./actions-runner-linux-x64-2.310.2.tar.gz
 
           ./config.sh --url https://github.com/coderschool-platform --token ${{ needs.setup-token.outputs.token }} --name CS_RUNNER_${{ matrix.job }} --replace --labels "self-hosted,dustin-runner"
 
