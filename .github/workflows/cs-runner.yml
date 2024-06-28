@@ -63,11 +63,11 @@ jobs:
       - name: Setup runner
         run: |
           mkdir actions-runner && cd actions-runner
-          curl -o actions-runner-linux-x64-2.310.2.tar.gz -L https://github.com/actions/runner/releases/download/v2.310.2/actions-runner-linux-x64-2.310.2.tar.gz
-          echo "fb28a1c3715e0a6c5051af0e6eeff9c255009e2eec6fb08bc2708277fbb49f93  actions-runner-linux-x64-2.310.2.tar.gz" | shasum -a 256 -c
-          tar xzf ./actions-runner-linux-x64-2.310.2.tar.gz
+          curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.317.0/actions-runner-linux-x64-2.317.0.tar.gz
+          echo "9e883d210df8c6028aff475475a457d380353f9d01877d51cc01a17b2a91161d  actions-runner-linux-x64-2.317.0.tar.gz" | shasum -a 256 -c
+          tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
 
-          ./config.sh --url https://github.com/coderschool-platform --token ${{ needs.setup-token.outputs.token }} --name CS_RUNNER_${{ matrix.job }} --replace --labels "self-hosted,dustin-runner"
+          ./config.sh --url https://github.com/coderschool-platform --token ${{ needs.setup-token.outputs.token }} --name CS_RUNNER_${{ matrix.job }} --replace --labels "self-hosted"
 
       - name: Start runner
         continue-on-error: true
